@@ -27,23 +27,26 @@ function motor_step_back(direction)
 end
 
 function motor_step(directionforward, directionback)
+  reached_end = false
   for i = 1, config.steploop do
     gpioWrite(directionforward, 1)
     if is_end_switch_on() then
       motor_stop()
       motor_step_back(directionback)
+      reached_end = true
       break
     end
   end
   motor_stop()
+  return not reached_end
 end
 
 function motor_step_l()
-  motor_step(config.pin_motor_l, config.pin_motor_r)
+  return motor_step(config.pin_motor_l, config.pin_motor_r)
 end
 
 function motor_step_r()
-  motor_step(config.pin_motor_r, config.pin_motor_l)
+  return motor_step(config.pin_motor_r, config.pin_motor_l)
 end
 
 function reset()

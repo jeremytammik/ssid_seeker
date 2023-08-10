@@ -33,8 +33,10 @@ while (true) do
     reset()
 
     debug('> start scanning', 1)
-    while (not is_end_switch_on()) do
-      motor_step_r()
+    continue_scan = true
+    while true do
+      continue_scan = motor_step_r()
+      if not continue_scan then break end
       ssids = get_ssids(ssids)
       debug('> next iteration', 1)
     end
