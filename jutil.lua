@@ -52,6 +52,9 @@ function reset()
     gpioWrite(config.pin_motor_l, 1)
   end -- while switch_end
   motor_stop()
-  motor_step_r()
+  for i = 1, config.stepback do
+    gpioWrite(config.pin_motor_r, 1)
+  end
+  motor_stop()
 end -- function reset
 
