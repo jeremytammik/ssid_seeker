@@ -10,7 +10,8 @@ function connect_to_network(ssid, password)
   signalStrength = get_signal_strength(ssid)
   bestSignalStrength = signalStrength
 
-  while not is_end_switch_on() do
+  continue_scan = true
+  while continue_scan do
     signalStrength = get_signal_strength(ssid)
     if signalStrength >= bestSignalStrength then
       bestSignalStrength = signalStrength
@@ -22,9 +23,7 @@ function connect_to_network(ssid, password)
     print("Current step: " .. currentStep)
     print("Best step: " .. stepOfBestSignal)
 
-    if not is_end_switch_on() then
-      motor_step_r()
-    end
+    continue_scan = motor_step_r()
     currentStep = currentStep + 1
   end
 
