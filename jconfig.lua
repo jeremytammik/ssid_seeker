@@ -3,6 +3,7 @@ return {
     pin_motor_r = 16,
     pin_switch_end = 17,
     step = 3,
+    steploop = 10,
     ifName = 'wlan-sta',
     debug = 1
 }

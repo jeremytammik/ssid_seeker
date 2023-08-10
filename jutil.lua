@@ -28,16 +28,23 @@ function motor_end_switch_monitor()
   end
 end
 
-function motor_step_r()
-  gpioWrite(config.pin_motor_r, 1)
-  sleep(config.step)
+function motor_step(direction)
+  for i = 1, config.steploop do
+    gpioWrite(direction), 1)
+    if is_end_switch_on() then
+      motor_stop()
+      break
+    end
+  end
   motor_stop()
 end -- motor_step_r
 
 function motor_step_l()
-  gpioWrite(config.pin_motor_l, 1)
-  sleep(config.step)
-  motor_stop()
+  motor_step(config.pin_motor_l)
+end -- function motor_step_l
+
+function motor_step_r()
+  motor_step(config.pin_motor_r)
 end -- function motor_step_l
 
 function reset()
@@ -47,36 +54,4 @@ function reset()
   motor_stop()
   motor_step_r()
 end -- function reset
-
-function get_ssids(ssids)
-  -- get scan result from wifi interface
-  iWInfo = sys.wifi.getiwinfo(config.ifName)
-  if table.getn(iWInfo) == 0 then
-    iWInfo = sys.wifi.getiwinfo("wlan0")
-  end
-
-  -- check if scanlist has any values
-  if iWInfo.scanlist then
-    -- iterate over all scan results and store each in variable cell
-    for i, cell in ipairs(iWInfo.scanlist) do
-      -- check if SSID exists
-      if cell.ssid then
-        -- check if SSID exists in ssids list
-        if ssids[cell.ssid] then
-          -- check if stored quality is lower than current quality value
-          if ssids[cell.ssid] < cell.quality then
-            -- if lower then save
-            ssids[cell.ssid] = cell.quality
-          end -- if quality
-        else
-          -- save SSID for the first time
-          ssids[cell.ssid] = cell.quality
-        end -- if ssids
-      end -- if SSID
-    end -- for cell
-  end -- if scanlist
-
-  debug('<<< function get_ssids', 2)
-  return (ssids)
-end -- function get_ssids
 
