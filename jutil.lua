@@ -30,7 +30,7 @@ end
 
 function motor_step(direction)
   for i = 1, config.steploop do
-    gpioWrite(direction), 1)
+    gpioWrite(direction, 1)
     if is_end_switch_on() then
       motor_stop()
       break
