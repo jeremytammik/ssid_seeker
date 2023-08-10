@@ -8,10 +8,10 @@ local ssids = {}
 debug('> initialize', 1)
 initialize()
 
-local endSwitchThread = coroutine.create(motor_end_switch_monitor)
-coroutine.resume(endSwitchThread)
+-- apparently, the router does not support multi-threading
+--local endSwitchThread = coroutine.create(motor_end_switch_monitor)
+--coroutine.resume(endSwitchThread)
 
-debug('> main loop', 1)
 while (true) do
   print("")
   print("---Current/Last config---")
